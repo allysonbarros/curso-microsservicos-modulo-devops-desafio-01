@@ -3,6 +3,7 @@ version: '3'
 services:
   app:
     build: .
+    tty: true
     volumes:
       - .:/var/www
     networks:
@@ -10,16 +11,31 @@ services:
     expose:
       - 9000
 
+  db:
+    build: ./.docker/mysql
+    restart: always
+    tty: true
+    expose:
+      - 3306
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=laravel
+      - MYSQL_ROOT_PASSWORD=root
+      - MYQSQL_USER=root
+    networks:
+      - app-network
+
   nginx:
     build: ./.docker/nginx
+    restart: always
+    tty: true
     volumes:
       - .:/var/www
     ports:
       - 8000:80
     networks:
       - app-network
-    restart: always
-    tty: true
 
   redis:
     image: redis:alpine
