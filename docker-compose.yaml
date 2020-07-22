@@ -4,8 +4,15 @@ services:
   app:
     build: .
     tty: true
+    entrypoint: dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 40s ./.docker/app/entrypoint.sh
     volumes:
       - .:/var/www
+    environment:
+      - REDIS_HOST=redis
+      - DB_HOST=db
+      - DB_DATABASE=laravel
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
     networks:
       - app-network
     expose:
@@ -28,10 +35,12 @@ services:
 
   nginx:
     build: ./.docker/nginx
-    restart: always
-    tty: true
+    entrypoint: dockerize -template /etc/nginx/conf.d/nginx.tmpl:/etc/nginx/conf.d/nginx.conf nginx -g 'daemon off';
     volumes:
-      - .:/var/www
+      - .:/var/www/
+    tty: true
+    environment:
+      - PROXY_URL=app:9000
     ports:
       - 8000:80
     networks:

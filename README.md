@@ -1,1 +1,1 @@
-URL da imagem: https://hub.docker.com/repository/docker/allysonbarros/devops-desafio-1
+URL da imagem: https://hub.docker.com/r/allysonbarros/devops-desafio-01
