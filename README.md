@@ -1,1 +1,1 @@
-URL da imagem: https://hub.docker.com/r/allysonbarros/devops-desafio-01
+URL da imagem - Desafio Docker: https://hub.docker.com/r/allysonbarros/codeeducation
